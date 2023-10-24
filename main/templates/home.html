@@ -3,5 +3,38 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-    <h1>Home pagina solo para Home </h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6">
+            {% for post in posts%}
+            <div class="p-5 rounded" style="background: linear-gradient(to bottom, #6A0572, #000000);">
+                <div class="display-4 fw-bold text-light mb-4"><strong>@{{ post.author.username}}</strong></div>
+                    <p class="lead text-light">{{post.title}}</p>
+                    <p class="lead text-light">{{post.description}}</p>
+                        <div>
+                            {% if user == post.author %}
+                            <form method="POST" action="{% url 'delete_post' post.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            {% endif %}
+                        </div>
+                </div>
+            </div>
+                {% empty%}
+                <p>No hay posts</p>
+
+            {% endfor %}
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="p-5 rounded" style="background: linear-gradient(to bottom, #6A0572, #000000);">
+                <h1 class="display-4 fw-bold text-light mb-4">Inicia Sesion</h1>
+                <p class="lead text-light">Conéctate y aprende en nuestro mundo e-learning. 
+                    Tu viaje educativo comienza aquí.</p>
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Inicia Sesion</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
